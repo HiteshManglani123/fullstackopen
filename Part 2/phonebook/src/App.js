@@ -76,19 +76,27 @@ const App = () => {
 
   const updatePhoneNumber = (id, name, phoneNumber) => {
     let result = window.confirm(`${name} is already in the phone book, replace the old number with a new one?`)
-    if (result) {
+    if (result === true) {
       const samePerson = persons.find(tempPerson => id === tempPerson.id)
       const changedPerson = {...samePerson, phoneNumber: phoneNumber}
       personService
       .updatePerson(changedPerson)
       .then (changedPerson => {
         setPersons(persons.map(n => n.id !== id ? n : changedPerson))
+        setMessage(`Updated ${newName}'s phoned number`)
+        setColor('green')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        setNewName('')
+        setNewPhoneNumber('')
       })
-      .catch(() => {
-        console.log("fail")
-        setMessage(`Information of ${newName} has already been removed from server`)
+      .catch((error) => {
+        setMessage(error.response.data.error)
         setColor('red')
-        setPersons(persons.filter(person => person.id !== id))
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
     }
   }
@@ -123,13 +131,6 @@ const App = () => {
     for(let x = 0; x < persons.length; x++) {
         if (persons[x].name === newName) {
           updatePhoneNumber(persons[x].id, newName, newPhoneNumber)
-          setMessage(`Updated ${newName}'s phoned number`)
-          setColor('green')
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
-          setNewName('')
-          setNewPhoneNumber('')
           found = true;
           break
       }
@@ -152,6 +153,14 @@ const App = () => {
           }, 5000)
         setNewName('')
         setNewPhoneNumber('')
+      })
+      .catch(error => {
+        console.log(error.response.data.error);
+        setMessage(error.response.data.error)
+        setColor('red')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
     }
   }

@@ -1,0 +1,15 @@
+POST http://localhost:3001/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "blogs": [],
+    "username": "Dengy",
+    "name": "Ryan",
+    "password": "secret"
+}
+
+###
+GET http://localhost:3001/api/users HTTP/1.1
+
+###
+DELETE http://localhost:3001/api/users/60a91e74cfffbc741480c940 HTTP/1.1

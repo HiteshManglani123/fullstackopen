@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { setError } from '../reducers/errorReducer'
-import { useDispatch } from 'react-redux'
 const Blog = ({ blog, likeBlog, deleteBlog }) => {
-  const dispatch = useDispatch()
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none': '' }
@@ -20,7 +17,6 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
     const newLikes = blog.likes + 1
     const newBlog = { ...blog, likes: newLikes }
     likeBlog(newBlog)
-    dispatch(setError(`Testing that you liked ${blog.title}`, 5))
   }
 
   const deleteBlogHandler = () => {

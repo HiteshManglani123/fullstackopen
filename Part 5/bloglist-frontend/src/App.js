@@ -5,7 +5,6 @@ import loginService from './services/login'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
-import Error from './components/Error'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -86,10 +85,10 @@ const App = () => {
       .update(blogObject)
       .then(returnedBlog => {
         sortBlogs(blogs.map(blog => returnedBlog.id !== blog.id ? blog : returnedBlog))
-        // setError(`liked ${blogObject.title}`)
-        // setTimeout(() => {
-        //   setError('')
-        // }, 3000)
+        setError(`liked ${blogObject.title}`)
+        setTimeout(() => {
+          setError('')
+        }, 3000)
       })
       .catch(error => console.log(error))
 
@@ -143,7 +142,7 @@ const App = () => {
 
   return (
     <div>
-      <Error/>
+      {error}
       {user === null ?
         loginForm() :
         blogForm()
